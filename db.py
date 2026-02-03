@@ -8,7 +8,8 @@ def get_db_and_cursor():
         password=os.getenv("MYSQLPASSWORD"),
         database=os.getenv("MYSQLDATABASE"),
         port=int(os.getenv("MYSQLPORT")),
-        autocommit=True
+        autocommit=True,
+        connection_timeout=5
     )
     cursor = conn.cursor(dictionary=True)
     return conn, cursor
