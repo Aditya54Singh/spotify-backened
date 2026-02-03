@@ -1,7 +1,6 @@
 flask
 flask-cors
-gunicorn
-mysql-connector-python
-python-dotenv
 flask-jwt-extended
-bcrypt
+mysql-connector-python
+werkzeug
+gunicorn
