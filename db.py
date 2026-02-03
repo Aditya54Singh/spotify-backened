@@ -1,11 +1,13 @@
+import os
 import mysql.connector
 
 def get_db_and_cursor():
     conn = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="Motog42",
-        database="spotify_clone",
+        host=os.getenv("MYSQLHOST"),
+        user=os.getenv("MYSQLUSER"),
+        password=os.getenv("MYSQLPASSWORD"),
+        database=os.getenv("MYSQLDATABASE"),
+        port=int(os.getenv("MYSQLPORT")),
         autocommit=True
     )
     cursor = conn.cursor(dictionary=True)
