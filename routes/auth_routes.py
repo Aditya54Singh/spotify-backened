@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import create_access_token
-import bcrypt
+from werkzeug.security import generate_password_hash, check_password_hash
 from db import get_db_and_cursor
 
 auth_bp = Blueprint("auth", __name__)
@@ -16,7 +16,7 @@ def register():
     if not name or not email or not password:
         return jsonify({"msg": "All fields are required"}), 400
 
-    hashed = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
+    hashed = generate_password_hash(password)
 
     conn, cursor = get_db_and_cursor()
 
@@ -55,7 +55,7 @@ def login():
     if not user:
         return jsonify({"msg": "User not found"}), 404
 
-    if not bcrypt.checkpw(password.encode("utf-8"), user["password"].encode("utf-8")):
+    if not check_password_hash(user["password"], password):
         return jsonify({"msg": "Invalid password"}), 401
 
     token = create_access_token(identity=str(user["id"]))
